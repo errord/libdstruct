@@ -18,9 +18,10 @@ test_dstruct_DEPENDENCIES = libdstruct.a
 LDADD = ./libdstruct.a
 
 # install headers file
-pkginclude_HEADERS = dstruct.h	\
-		baseio.h	\
-		dsbase.h	\
-		dsconfig.h	\
+pkginclude_HEADERS = libdstruct.h	\
+		dstruct.h		\
+		baseio.h		\
+		dsbase.h		\
+		dsconfig.h		\
 		dsioformat.h
 
