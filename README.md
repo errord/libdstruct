@@ -1,0 +1,4 @@
+libdstruct
+==========
+
+dynamic struct
