@@ -5,21 +5,44 @@
 
 using namespace dstruct;
 
-cDSConfig::cDSConfig()
+dstruct::cDStruct* cDSConfig::dstruct = NULL;
+
+static bool readConfigFile(const std::string& configFile, std::string& text)
 {
-  dstructNode = NULL;
+  std::ifstream iFile(configFile.c_str(), std::ios::in);
+  text = "";
+  if (!iFile.is_open())
+ 	{
+      return false;
+    }
+  std::string strTemp;
+  while (!iFile.eof())
+    {
+      std::getline(iFile,strTemp);
+      text += strTemp;
+      text += "\n";
+	}
+  iFile.close();
+  return true;
+}
+
+cDSConfig::cDSConfig(dstruct::cDStructNode *dsnode) :
+  dstructNode(NULL)
+{
 }
 
 cDSConfig::~cDSConfig() {}
 
-bool
+cDSConfig*
 cDSConfig::loadConfig(const std::string& configFile)
 {
   string extendName;
   dstruct::iDStructIOFormat* ioFromat = NULL;
   string configContent;
   bool isload;
-  
+ 
+  assert(!cDSConfig::dstruct);
+ 
   if (configFile == "") {
     cerr << "没有配置文件名称" << endl;
     return false;
@@ -46,12 +69,64 @@ cDSConfig::loadConfig(const std::string& configFile)
     cerr << "读配置文件错误" << endl;
     return false;
   }
-    
+  
+  dstruct = new dstruct::cDStruct();
+  
   ioFromat->reset();
   ioFromat->setDStructStream(configContent);
-  isload = dstruct.inDStruct(ioFromat);
+  isload = dstruct->inDStruct(ioFromat);
   delete ioFromat;
-  return isload;
+
+  cDSConfig *dsconfig = new cDSConfig(dstruct->getRootNode());
+  cDSConfig::addConfig(std::string(""), dsconfig);
+  return dsconfig;
+}
+
+cDSConfig*
+cDSConfig::reloadConfig(const std::string& configFile)
+{
+  cDSConfig::unloadConfig();
+  return cDSConfig::loadConfig(configFile);
+}
+
+void
+cDSConfig::unloadConfig()
+{
+  if (dstruct) {
+    delete dstruct;
+    dstruct = NULL;
+    cDSConfig::freeAllConfig();
+  }
+}
+
+cDSConfig*
+cDSConfig::findConfig(const std::string& path)
+{
+  return config_obj_map[path];
+}
+
+void
+cDSConfig::addConfig(const std::string& path, cDSConfig *config)
+{
+  config_obj_map[path] = config;
+}
+
+void
+cDSConfig::freeAllConfig()
+{
+  std::map<std::string, cDSConfig*>::iterator iter = config_obj_map.begin();
+  for (; iter != config_obj_map.end(); iter++) {
+    delete iter->second;
+  }
+}
+
+cDSConfig*
+cDSConfig::getSubConfig(const std::string& path)
+{
+  cDStructNode *node = dstructNode->getNode(path);
+  cDSConfig *subconfig = new cDSConfig(node);
+  cDSConfig::addConfig(node->getNodePath(), subconfig);
+  return subconfig;
 }
 
 void
@@ -145,9 +220,6 @@ std::string
 cDSConfig::getValueStr(const std::string& path)
 {
   dstruct::cDStructNode *node;
-  if (dstructNode == NULL)
-    return dstruct(path);
-  
   node = dstructNode->getNode(path);
   if (!node)
     return "";
@@ -191,61 +263,3 @@ cDSConfig::getValueDouble(const std::string& path)
   sscanf(valueStr.c_str(), "%f", &value);
   return (double)value;
 }
-
-void
-cDSConfig::setPathName(const std::string& name)
-{
-    dstructNode = dstruct[name];
-}
-
-void
-cDSConfig::downPathName(const std::string& name)
-{
-  nodeStack.push_back(dstructNode);
-  if (dstructNode == NULL)
-    dstructNode = dstruct[name];
-  else
-    dstructNode = dstructNode->getNode(name);
-}
-
-void
-cDSConfig::downPathName(const std::string& name, int idx)
-{
-  dstruct::cDStructNode *node;
-  nodeStack.push_back(dstructNode);
-  if (dstructNode == NULL) {
-    node = dstruct.getNode(name);
-    dstructNode = node->getArrayNode(idx);
-  } else {
-    node = dstructNode->getNode(name);
-    dstructNode = node->getArrayNode(idx);
-  }
-}
-
-void
-cDSConfig::upPathName()
-{
-  dstructNode = nodeStack.back();
-  nodeStack.pop_back();
-}
-
-bool
-cDSConfig::readConfigFile(const std::string& configFile, std::string& text)
-{
-  std::ifstream iFile(configFile.c_str(), std::ios::in);
-  text = "";
-  if (!iFile.is_open())
- 	{
-      return false;
-    }
-  std::string strTemp;
-  while (!iFile.eof())
-    {
-      std::getline(iFile,strTemp);
-      text += strTemp;
-      text += "\n";
-	}
-  iFile.close();
-  return true;
-}
-

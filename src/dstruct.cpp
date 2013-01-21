@@ -184,6 +184,7 @@ cDStructNode::cDStructNode()
 {
   mMapPool = NULL;
   mArrayPool = NULL;
+  mValue = "";
   nodeClear();
 }
 cDStructNode::~cDStructNode()
@@ -196,6 +197,7 @@ cDStructNode::cDStructNode(const cDStructNode& dstruct)
   this->mValue = dstruct.mValue;
   this->mMapPool = dstruct.copyMapPool();
   this->mArrayPool = dstruct.copyArrayPool();
+  this->mNodePath = dstruct.mNodePath;
 }
 
 cDStructNode::cDStructNode(const cDStructNode* dstruct)
@@ -203,6 +205,7 @@ cDStructNode::cDStructNode(const cDStructNode* dstruct)
   this->mValue = dstruct->mValue;
   this->mMapPool = dstruct->copyMapPool();
   this->mArrayPool = dstruct->copyArrayPool();
+  this->mNodePath = dstruct->mNodePath;
 }
 
 cDStructNode::mapPoolPoint
@@ -278,6 +281,7 @@ void
 cDStructNode::nodeClear()
 {
   mValue = "";
+  mNodePath = "";
   clearMapPool();
   clearArrayPool();  
 }
@@ -373,16 +377,28 @@ cDStructNode::addMapNode(const string& key, cDStructNode* node)
 {
   if (mMapPool == NULL)
     mMapPool = new mapPoolDef;
+  std::string path = getNodePath();
+  if (path == "") {
+    path += key;
+  } else {
+    path += "." + key;
+  }
+  node->setNodePath(path);
   mMapPool->insert(pair<string, cDStructNode*>(key, node));
 }
+
 
 inline void
 cDStructNode::addArrayNode(unsigned int index, cDStructNode* node)
 {
+  char buf[25];
   if (mArrayPool == NULL)
     mArrayPool = new arrayPoolDef;
   if (index >= mArrayPool->size())
     mArrayPool->resize(index+1);
+  sprintf(buf, "%d", index);
+  std::string path = getNodePath() + "[" + buf + "]";
+  node->setNodePath(path);
   (*mArrayPool)[index] = node;
 }
 
@@ -531,6 +547,18 @@ cDStructNode::find(cDSPathNode& node)
       structNode = getArrayNode(node.getIndex());
     }
   return structNode;        
+}
+
+std::string&
+cDStructNode::getNodePath()
+{
+  return mNodePath;
+}
+
+void
+cDStructNode::setNodePath(std::string& path)
+{
+  mNodePath = path;
 }
 
 ///////////////////////////////////////////////////////////

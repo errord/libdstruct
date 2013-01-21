@@ -95,10 +95,14 @@ namespace dstruct
     mapPoolIter mapPoolEnd();
     arrayPoolIter arrayPoolBegin();
     arrayPoolIter arrayPoolEnd();
+    std::string& getNodePath();
+    void setNodePath(std::string& path);
+
   private:
     string mValue;
     mapPoolPoint mMapPool;
     arrayPoolPoint mArrayPool;
+    std::string mNodePath;
   };
 
   class cDStruct

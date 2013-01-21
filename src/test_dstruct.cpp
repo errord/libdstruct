@@ -200,6 +200,14 @@ int main()
   v = ds3->get("b.a[5].c[5]");
   ECHECK("b.a[5].c[5] == 30", v == "30");
 
+  // node path
+  v = ds3->getNode("")->getNodePath();
+  ECHECK("ds3 path == ''", v == "");
+  v = ds3->getNode("b.b[5]")->getNodePath();
+  ECHECK("b.b[5] path == 'b.b[5]'", v == "b.b[5]");
+  v = ds3->getNode("a.b")->getNodePath();
+  ECHECK("a.b path == 'a.b'", v == "a.b");
+
   /*
   string stream;
   cDSIOTextFormat ds1_textformat;

@@ -10,7 +10,7 @@ create() {
     echo "autoheader ..."
     autoheader
     echo "touch NEWS README AUTHORS ChangeLog ..."
-    touch NEWS README AUTHORS ChangeLog
+    touch NEWS AUTHORS ChangeLog
     echo "automake -a ..."
     automake -a
     echo "autoconf ..."

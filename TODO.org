@@ -1,0 +1,5 @@
+* TODO 加入json支持
+* TODO 加入二进制支持
+* DONE dsconfig
+* DONE dstructnode增加取当前节点路径的方法
+* TODO 支持include文件
