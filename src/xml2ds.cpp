@@ -7,9 +7,9 @@ using namespace dstruct;
 
 void usage()
 {
-  cout << "用法: xml2ds xml格式配置文件 ds格式配置文件" << endl;
-  cout << "说明:" << endl;
-  cout << "\t把xml格式配置文件转换为ds格式配置文件" << endl;
+  cout << "鐢ㄦ硶: xml2ds xml鏍煎紡閰嶇疆鏂囦欢 ds鏍煎紡閰嶇疆鏂囦欢" << endl;
+  cout << "璇存槑:" << endl;
+  cout << "\t鎶妜ml鏍煎紡閰嶇疆鏂囦欢杞崲涓篸s鏍煎紡閰嶇疆鏂囦欢" << endl;
 }
 
 int main(int argc, char** argv)
@@ -32,22 +32,22 @@ int main(int argc, char** argv)
   dscfgfile = argv[2];
  
    // string resource
-  string openxmlstr = "打开xml格式文件[";
+  string openxmlstr = "鎵撳紑xml鏍煎紡鏂囦欢[";
   openxmlstr += xmlcfgfile;
   openxmlstr += "]";
 
-  string parsexmlstr = "解析[";
+  string parsexmlstr = "瑙ｆ瀽[";
   parsexmlstr += xmlcfgfile;
   parsexmlstr += "]";
 
-  string outdsstr = "输出ds格式文件[";
+  string outdsstr = "杈撳嚭ds鏍煎紡鏂囦欢[";
   outdsstr += dscfgfile;
   outdsstr += "]";
 
   cout << openxmlstr << "..." << endl;
   if (cBaseIo::readTextFile(xmlcfgfile, xmlcfgStream) == false)
     {
-      cerr << openxmlstr << "失败!!!" << endl;
+      cerr << openxmlstr << "澶辫触!!!" << endl;
       return 0;
     }
 
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
   xmlFormat.setDStructStream(xmlcfgStream);
   if (dstruct.inDStruct((iDStructIOFormat*)&xmlFormat) == false)
     {
-      cerr << parsexmlstr << "失败!!!" << endl;
+      cerr << parsexmlstr << "澶辫触!!!" << endl;
       return 0;
     }
   cout << outdsstr << "..." << endl;
@@ -63,9 +63,9 @@ int main(int argc, char** argv)
   dscfgStream = textFormat.getDStructStream();
   if (cBaseIo::writeTextFile(dscfgfile, dscfgStream) == false)
     {
-      cerr << outdsstr << "失败!!!" << endl;
+      cerr << outdsstr << "澶辫触!!!" << endl;
       return 0;
     }
-  cout << "转换完成!!!" << endl;
+  cout << "杞崲瀹屾垚!!!" << endl;
   return 0;
 }

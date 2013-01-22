@@ -6,6 +6,7 @@
 using namespace dstruct;
 
 dstruct::cDStruct* cDSConfig::dstruct = NULL;
+std::map<std::string, cDSConfig*> cDSConfig::config_obj_map;
 
 static bool readConfigFile(const std::string& configFile, std::string& text)
 {
@@ -44,13 +45,13 @@ cDSConfig::loadConfig(const std::string& configFile)
   assert(!cDSConfig::dstruct);
  
   if (configFile == "") {
-    cerr << "Ã»ÓÐÅäÖÃÎÄ¼þÃû³Æ" << endl;
+    cerr << "æ²¡æœ‰é…ç½®æ–‡ä»¶åç§°" << endl;
     return false;
   }
 
-  // ¸ù¾ÝÀ©Õ¹Ãû´´½¨io¶ÔÏó
+  // æ ¹æ®æ‰©å±•ååˆ›å»ºioå¯¹è±¡
   if (configFile.length() <= 3) {
-    cerr << "ÎÄ¼þÃû´íÎó" << endl;
+    cerr << "æ–‡ä»¶åé”™è¯¯" << endl;
     return false;
   }
   extendName = configFile.substr(configFile.length() - 3, 3);
@@ -60,13 +61,13 @@ cDSConfig::loadConfig(const std::string& configFile)
   if (extendName == ".xml" || extendName == ".XML")
     ioFromat = new dstruct::cDSIOXmlFormat();
   if (ioFromat == NULL) {
-    cerr << "²»Ö§³ÖµÄÀ©Õ¹Ãû" << endl;
+    cerr << "ä¸æ”¯æŒçš„æ‰©å±•å" << endl;
     return false;
   }
 
-  // ÔØÈëÅäÖÃÎÄ¼þ
+  // è½½å…¥é…ç½®æ–‡ä»¶
   if (readConfigFile(configFile, configContent) == false) {
-    cerr << "¶ÁÅäÖÃÎÄ¼þ´íÎó" << endl;
+    cerr << "è¯»é…ç½®æ–‡ä»¶é”™è¯¯" << endl;
     return false;
   }
   

@@ -13,7 +13,7 @@ namespace dstruct
       arraynode
     };
   
-  /* Â·¾¶½Úµã */
+  /* è·¯å¾„èŠ‚ç‚¹ */
   class cDSPathNode
   {
   public:
@@ -34,7 +34,7 @@ namespace dstruct
     int mIndex;
   };
 
-  /* Â·¾¶½âÎö */
+  /* è·¯å¾„è§£æ */
   class cDSPathParse
   {
   public:
@@ -50,7 +50,7 @@ namespace dstruct
     const char* mPoint;
   };
 
-  /* DStruct½Úµã */
+  /* DStructèŠ‚ç‚¹ */
   class cDStructNode
   {
   public:
@@ -114,27 +114,27 @@ namespace dstruct
     virtual ~cDStruct();
 
     void clear();
-    // ÉèÖÃÂ·¾¶Öµ
+    // è®¾ç½®è·¯å¾„å€¼
     void set(const string& path, const string& value);
-    // È¡¸ù½Úµã
+    // å–æ ¹èŠ‚ç‚¹
     cDStructNode *getRootNode();
-    // È¡Ö¸¶¨Â·¾¶µÄÖµ
+    // å–æŒ‡å®šè·¯å¾„çš„å€¼
     string get(const string& path);
-    // È¡Ö¸¶¨Â·¾¶µÄÊı×éÖµ
+    // å–æŒ‡å®šè·¯å¾„çš„æ•°ç»„å€¼
     void getArray(const string& path, vector<string>& values);
-    // È¡Ö¸¶¨Â·¾¶µÄ½Úµã
+    // å–æŒ‡å®šè·¯å¾„çš„èŠ‚ç‚¹
     cDStructNode *getNode(const string& path);
     void outDStruct(iDStructIOFormat* outFormat);
     bool inDStruct(iDStructIOFormat* inFormat);
     void traipsePath(cDStructNode* node, iDStructIOFormat* outFormat);
     void addend(cDStruct& dstruct);
-    // ºÏ²¢2¸ödstructÎªÒ»¸öĞÂµÄdstruct²¢·µ»Ø.ĞèÒªµ÷ÓÃÕßÉ¾³ı
+    // åˆå¹¶2ä¸ªdstructä¸ºä¸€ä¸ªæ–°çš„dstructå¹¶è¿”å›.éœ€è¦è°ƒç”¨è€…åˆ é™¤
     cDStruct *operator+(cDStruct& dstruct);
-    // ×·¼ÓÒ»¸ödstruct,Í¬addendº¯Êı
+    // è¿½åŠ ä¸€ä¸ªdstruct,åŒaddendå‡½æ•°
     void operator+=(cDStruct& dstruct);
-    // È¡½Úµã,Í¬getNode
+    // å–èŠ‚ç‚¹,åŒgetNode
     cDStructNode *operator[](const string& path);
-    // È¡Öµ,Í¬get
+    // å–å€¼,åŒget
     string operator()(const string& path);
     
   private:

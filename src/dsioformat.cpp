@@ -53,9 +53,9 @@ iDStructIOFormat::outLineNum(int offset = 0)
 {
   char buff[1024];
   sprintf(buff, "%d", mLinenum + offset);
-  string m =  "µÚ";
+  string m =  "ç¬¬";
   m += buff;
-  m += "ÐÐ,";
+  m += "è¡Œ,";
   return m;
 }
 
@@ -156,7 +156,7 @@ cDSIOTextFormat::inPathValue(string& path, string& value)
         {
           if (state != estart && state != ecomm)
             {    
-              cerr << outLineNum() << "Ã»ÓÐ½áÊø·û(;)" << endl;
+              cerr << outLineNum() << "æ²¡æœ‰ç»“æŸç¬¦(;)" << endl;
               return 0;
             }
           return 2;
@@ -209,7 +209,7 @@ cDSIOTextFormat::inPathValue(string& path, string& value)
           else if ( ! (ismb == false &&
                        (c == ' ' || c == '\t')))
             {
-              cerr << outLineNum() << "µÈºÅÓÒ±ßÖ»ÄÜÊÇ×Ö·û´®" << endl;
+              cerr << outLineNum() << "ç­‰å·å³è¾¹åªèƒ½æ˜¯å­—ç¬¦ä¸²" << endl;
               return 0;
             }
           break;
@@ -235,7 +235,7 @@ cDSIOTextFormat::inPathValue(string& path, string& value)
             }
           else
             {
-              cerr << outLineNum(-1) << "´íÎóµÄ½áÊø·ûºÅ" << endl;
+              cerr << outLineNum(-1) << "é”™è¯¯çš„ç»“æŸç¬¦å·" << endl;
               return 0;
             }
         }
@@ -442,14 +442,14 @@ cDSIOXmlFormat::inPathValue(string& path, string& value)
       nextXmlNode(xmlNode);
       if (xmlNode.getNodeType() != declarationnode)
         {
-          cerr << "´íÎóXMLÉùÃ÷½Úµã" << endl;
+          cerr << "é”™è¯¯XMLå£°æ˜ŽèŠ‚ç‚¹" << endl;
           return 0;
         }
       nextXmlNode(xmlNode);
       if ( ! ((xmlNode.getNodeType() == node) &&
               (xmlNode.getTagName() == "DStruct")) )
         {
-          cerr << "XMLÎÄ¼þ¸ñÊ½´íÎó" << endl;
+          cerr << "XMLæ–‡ä»¶æ ¼å¼é”™è¯¯" << endl;
           return 0;
         }
       mFirstParse = false;
@@ -461,7 +461,7 @@ cDSIOXmlFormat::inPathValue(string& path, string& value)
     {
       if (nextXmlNode(xmlNode) == false)
         {
-          cerr << outLineNum() << "ÎÞ·¨»ñÈ¡±êÇ©" << endl;
+          cerr << outLineNum() << "æ— æ³•èŽ·å–æ ‡ç­¾" << endl;
           return 0;
         }
       tagName = xmlNode.getTagName();
@@ -499,7 +499,7 @@ cDSIOXmlFormat::inPathValue(string& path, string& value)
                 }
               else
                 {
-                  cerr << outLineNum() << "ÎÞ·¨Ê¶±ðµÄÊôÐÔ:" << typeValue << endl;
+                  cerr << outLineNum() << "æ— æ³•è¯†åˆ«çš„å±žæ€§:" << typeValue << endl;
                   return 0;
                 }
             }
@@ -518,12 +518,12 @@ cDSIOXmlFormat::inPathValue(string& path, string& value)
           if (xmlNode.getNodeType() == endnode &&
               xmlNode.getTagName() == "Value")
             return 1;
-          cerr << outLineNum() << "Ã»ÓÐÒÔ</Value>±êÇ©" << endl;
+          cerr << outLineNum() << "æ²¡æœ‰ä»¥</Value>æ ‡ç­¾" << endl;
           return 0;
         }
       else
         {
-          cerr << outLineNum() << "ÎÞ·¨Ê¶±ðµÄXML±êÇ©:" << tagName  << endl;
+          cerr << outLineNum() << "æ— æ³•è¯†åˆ«çš„XMLæ ‡ç­¾:" << tagName  << endl;
           return 0;
         }
     }
@@ -562,7 +562,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
       if (mStreamPos >= mDSStream.length())
         {
           if (state != estart)
-            cerr << outLineNum() << "´íÎóµÄ½áÊø" << endl;
+            cerr << outLineNum() << "é”™è¯¯çš„ç»“æŸ" << endl;
           return false;
         }
       c = mDSStream[mStreamPos];
@@ -573,7 +573,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
               state != etagattrvalue && state != evalue &&
               state != ecomm)
             {
-              cerr << outLineNum() << "²»ÄÜÊ¶±ðµÄË«×Ö½Ú×Ö·û" << endl;
+              cerr << outLineNum() << "ä¸èƒ½è¯†åˆ«çš„åŒå­—èŠ‚å­—ç¬¦" << endl;
               return false;
             }
           multibyte(mb);
@@ -634,7 +634,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
         case etagattrname:
           if (c == '>')
             {
-              cerr << outLineNum() << "Ã»ÓÐ=ºÅ¼°ÊôÐÔÖµ" << endl;
+              cerr << outLineNum() << "æ²¡æœ‰=å·åŠå±žæ€§å€¼" << endl;
               return false;
             }
           else if (c == '=')
@@ -643,7 +643,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
               state = etagattrequal;
               if (xmlNode.isAttrExist(tagAttrName) == true)
                 {
-                  cerr << outLineNum() << "ÖØ¸´µÄÊôÐÔ" << endl;
+                  cerr << outLineNum() << "é‡å¤çš„å±žæ€§" << endl;
                   return false;
                 }
             }
@@ -653,7 +653,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
               state = etagspace;
               if (xmlNode.isAttrExist(tagAttrName) == true)
                 {
-                  cerr << outLineNum() << "ÖØ¸´µÄÊôÐÔ" << endl;
+                  cerr << outLineNum() << "é‡å¤çš„å±žæ€§" << endl;
                   return false;
                 }              
             }
@@ -669,7 +669,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
         case etagattrequal:
           if (c == '>')
             {
-              cerr << outLineNum() << "Ã»ÓÐÊôÐÔÖµ" << endl;
+              cerr << outLineNum() << "æ²¡æœ‰å±žæ€§å€¼" << endl;
               return false;
             }
           else if (c == ' ')
@@ -682,7 +682,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
             }
           else
             {
-              cerr << outLineNum() << "ÊôÐÔ¸³ÖµÊ±,´Ë´¦Ö»ÄÜ³öÏÖ×öÒýºÅ" << endl;
+              cerr << outLineNum() << "å±žæ€§èµ‹å€¼æ—¶,æ­¤å¤„åªèƒ½å‡ºçŽ°åšå¼•å·" << endl;
               return false;
             }
           break;
@@ -715,7 +715,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
             }
           else
             {
-              cerr << outLineNum() << "ÊôÐÔÐèÒªÊ¹ÓÃ¿Õ¸ñ·Ö¸ô" << endl;
+              cerr << outLineNum() << "å±žæ€§éœ€è¦ä½¿ç”¨ç©ºæ ¼åˆ†éš”" << endl;
               return false;
             }
           break;
@@ -741,7 +741,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
                 }
               else
                 {
-                  cerr << outLineNum() << "ÊôÐÔºóÃæÐèÒªÓÐ\"=\"ºÅ" << endl;
+                  cerr << outLineNum() << "å±žæ€§åŽé¢éœ€è¦æœ‰\"=\"å·" << endl;
                   return false;
                 }
               break;
@@ -752,7 +752,7 @@ cDSIOXmlFormat::nextXmlNode(cXmlNode& xmlNode)
                 }
               else
                 {
-                  cerr << outLineNum() << "ÊôÐÔÖµÐèÒª´ÓÒýºÅ¿ªÊ¼" << endl;
+                  cerr << outLineNum() << "å±žæ€§å€¼éœ€è¦ä»Žå¼•å·å¼€å§‹" << endl;
                   return false;
                 }
               break;

@@ -93,7 +93,7 @@ cDSPathParse::nextPathToken(cDSPathNode& pathNode)
           if (type == unknownode)
             type = mapnode;
           else if (type == arraynode)
-            cout << "数组索引中不能包含双字节字符" << endl;
+            cout << "鏁扮粍绱㈠紩涓笉鑳藉寘鍚弻瀛楄妭瀛楃" << endl;
           key += *mPoint;
           mPoint++;
           key += *mPoint;
