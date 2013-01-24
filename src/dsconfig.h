@@ -35,6 +35,7 @@ namespace dstruct
     ~cDSConfig();
     cDSConfig* getSubConfig(const std::string& path);
     void getPathNameList(const std::string& path, std::vector<std::string>& pathNameList);
+    void getSubConfigList(const std::string& path, std::vector<cDSConfig*>& subConfigList);
     int getArraySize(const std::string& path);
     std::string getArrayStrByIdx(const std::string& path, int idx);
     int getArrayIntByIdx(const std::string& path, int idx);

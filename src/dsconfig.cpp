@@ -28,7 +28,7 @@ static bool readConfigFile(const std::string& configFile, std::string& text)
 }
 
 cDSConfig::cDSConfig(dstruct::cDStructNode *dsnode) :
-  dstructNode(NULL)
+  dstructNode(dsnode)
 {
 }
 
@@ -46,13 +46,13 @@ cDSConfig::loadConfig(const std::string& configFile)
  
   if (configFile == "") {
     cerr << "没有配置文件名称" << endl;
-    return false;
+    return NULL;
   }
 
   // 根据扩展名创建io对象
   if (configFile.length() <= 3) {
     cerr << "文件名错误" << endl;
-    return false;
+    return NULL;
   }
   extendName = configFile.substr(configFile.length() - 3, 3);
   if (extendName == ".ds" || extendName == ".DS")
@@ -62,13 +62,13 @@ cDSConfig::loadConfig(const std::string& configFile)
     ioFromat = new dstruct::cDSIOXmlFormat();
   if (ioFromat == NULL) {
     cerr << "不支持的扩展名" << endl;
-    return false;
+    return NULL;
   }
 
   // 载入配置文件
   if (readConfigFile(configFile, configContent) == false) {
     cerr << "读配置文件错误" << endl;
-    return false;
+    return NULL;
   }
   
   dstruct = new dstruct::cDStruct();
@@ -77,7 +77,10 @@ cDSConfig::loadConfig(const std::string& configFile)
   ioFromat->setDStructStream(configContent);
   isload = dstruct->inDStruct(ioFromat);
   delete ioFromat;
-
+  if (!isload) {
+    cerr << "解析" << configFile << "错误!!" << endl;
+    return NULL;
+  }
   cDSConfig *dsconfig = new cDSConfig(dstruct->getRootNode());
   cDSConfig::addConfig(std::string(""), dsconfig);
   return dsconfig;
@@ -124,8 +127,16 @@ cDSConfig::freeAllConfig()
 cDSConfig*
 cDSConfig::getSubConfig(const std::string& path)
 {
+  cDSConfig *subconfig = cDSConfig::findConfig(path);
+  if (subconfig)
+    return subconfig;
+
   cDStructNode *node = dstructNode->getNode(path);
-  cDSConfig *subconfig = new cDSConfig(node);
+  if (!node) {
+    return NULL;
+  }
+
+  subconfig = new cDSConfig(node);
   cDSConfig::addConfig(node->getNodePath(), subconfig);
   return subconfig;
 }
@@ -140,6 +151,25 @@ cDSConfig::getPathNameList(const std::string& path, std::vector<string>& pathNam
        pathIter++) {
     
     pathNameList.push_back(pathIter->first);
+  }
+}
+
+void
+cDSConfig::getSubConfigList(const std::string& path, std::vector<cDSConfig*>& subConfigList)
+{
+  cDSConfig *subconfig;
+  dstruct::cDStructNode::mapPoolIter pathIter;
+  dstruct::cDStructNode *node = dstructNode->getNode(path);
+  for (pathIter = node->mapPoolBegin();
+       pathIter != node->mapPoolEnd();
+       pathIter++) {
+
+    subconfig = cDSConfig::findConfig(path);
+    if (!subconfig) {
+      subconfig = new cDSConfig(pathIter->second);
+      cDSConfig::addConfig(pathIter->second->getNodePath(), subconfig);
+    }
+    subConfigList.push_back(subconfig);
   }
 }
 
