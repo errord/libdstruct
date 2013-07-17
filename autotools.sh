@@ -36,6 +36,9 @@ clean() {
     rm -rf src/Makefile.in
     rm -rf src/Makefile
     rm -rf src/.deps
+    rm -rf src/ds2xml
+    rm -rf src/test_dstruct
+    rm -rf src/xml2ds
     echo
 }
 

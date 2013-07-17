@@ -524,6 +524,8 @@ cDStructNode::insert(cDSPathNode& node)
     }
   if (node.getType() == mapnode)
     {
+      /* node default value is path key */
+      structNode->setValue(node.getKey());
       addMapNode(node.getKey(), structNode);
     }
   else if (node.getType() == arraynode)
