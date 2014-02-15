@@ -1,6 +1,7 @@
 #ifndef _LIBDSTRUCT_BASE_H_
 #define _LIBDSTRUCT_BASE_H_
 
+#include <stdlib.h>
 #include <assert.h>
 #include <vector>
 #include <map>
@@ -8,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
