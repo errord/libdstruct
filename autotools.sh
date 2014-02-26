@@ -31,6 +31,7 @@ clean() {
     rm -rf install-sh
     rm -rf missing
     rm -rf stamp-h1
+    rm -rf compile 
     rm -rf Makefile.in
     rm -rf Makefile
     rm -rf src/Makefile.in

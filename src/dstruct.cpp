@@ -405,32 +405,36 @@ cDStructNode::addArrayNode(unsigned int index, cDStructNode* node)
 cDStructNode::mapPoolIter
 cDStructNode::mapPoolBegin()
 {
+  mapPoolIter iter;
   if (mMapPool == NULL)
-    return (mapPoolIter)NULL;
+    return iter;
   return mMapPool->begin();
 }
 
 cDStructNode::mapPoolIter
 cDStructNode::mapPoolEnd()
 {
+  mapPoolIter iter;
   if (mMapPool == NULL)
-    return (mapPoolIter)NULL;
+    return iter;
   return mMapPool->end();
 }
 
 cDStructNode::arrayPoolIter
 cDStructNode::arrayPoolBegin()
 {
+  arrayPoolIter iter;
   if (mArrayPool == NULL)
-    return (arrayPoolIter)NULL;
+    return iter;
   return mArrayPool->begin();
 }
 
 cDStructNode::arrayPoolIter
 cDStructNode::arrayPoolEnd()
 {
+  arrayPoolIter iter;
   if (mArrayPool == NULL)
-    return (arrayPoolIter)NULL;
+    return iter;
   return mArrayPool->end();
 }
 
