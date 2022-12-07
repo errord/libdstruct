@@ -15,11 +15,16 @@ create() {
     automake -a
     echo "autoconf ..."
     autoconf
-    echo
+    echo "create done..."
+    echo "./configure"
+    echo "make install"
 }
 
 clean() {
     echo "Clean Configure ..."
+    rm -rf COPYING
+    rm -rf INSTAL
+    rm -rf compile
     rm -rf aclocal.m4
     rm -rf autom4te.cache
     rm -rf config.h
